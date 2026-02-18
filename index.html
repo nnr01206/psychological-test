@@ -32,13 +32,35 @@
             </div>
 
             <div id="result-container" class="hide">
-                <div class="result-card">
-                    <h2>你的閱讀色票是...</h2>
-                    <h3 id="result-title"></h3>
-                    <div class="divider"></div>
-                    <p id="result-description"></p>
-                    <button id="restart-btn" class="btn-restart">再測一次</button>
+                
+                <div class="result-top-visual" id="result-bg-color">
+                    <div class="visual-content">
+                        <p class="small-label">你的閱讀人格</p>
+                        <h2 id="result-title">測驗結果</h2>
+                        <div class="book-icon-decoration">📚</div>
+                    </div>
                 </div>
+
+                <div class="recommendation-card">
+                    <h3 class="rec-title">為您推薦書籍</h3>
+                    
+                    <div class="book-layout">
+                        <div class="book-cover-wrapper">
+                            <div class="book-cover-placeholder">Book Cover</div>
+                        </div>
+                        
+                        <div class="book-info">
+                            <h4 id="book-name">書名載入中</h4>
+                            <p id="book-intro">書籍簡介載入中...</p>
+                        </div>
+                    </div>
+
+                    <button id="restart-btn" class="btn-buy">
+                        再測一次
+                        <span class="tag-icon">🏷️</span>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
