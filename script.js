@@ -1,4 +1,4 @@
-// 結果類型定義
+// 結果類型定義 (已移除 multicolor)
 const results = {
     midnightBlue: {
         title: '午夜藍｜思辨者',
@@ -15,14 +15,10 @@ const results = {
     roseMilkTea: {
         title: '玫瑰奶茶｜浪漫派',
         description: '你的情感細膩豐富，能敏銳地捕捉文字中的情緒與詩意。對你來說，閱讀是一場心靈的共振，讓你與故事中的角色一同歡笑與流淚。\n\n推薦書單：詩集、愛情小說、抒情散文。'
-    },
-    multicolor: {
-        title: '多色拼貼｜雜食型閱讀靈魂',
-        description: '你擁有不被定義的閱讀光譜！你的好奇心旺盛，對各種類型的書籍都抱持開放的態度。你的書架就像一座驚奇的百寶箱，反映出你豐富而多元的內心世界。'
     }
 };
 
-// 題目與選項對應
+// 題目與選項
 const questions = [
     {
         question: '推開街角書店的門，第一個吸引你的地方是…',
@@ -71,27 +67,27 @@ const questions = [
     }
 ];
 
-// ----- 下方是測驗的核心運作邏輯，你不需要修改它們 -----
-
+// ----- DOM 元素 -----
 const questionContainer = document.getElementById('question-container');
 const resultContainer = document.getElementById('result-container');
-const questionElement = document.getElementById('question');
+const questionTitleElement = document.getElementById('question-title');
 const answerButtonsElement = document.getElementById('answer-buttons');
 const resultTitleElement = document.getElementById('result-title');
 const resultDescriptionElement = document.getElementById('result-description');
 const restartBtn = document.getElementById('restart-btn');
+const progressBar = document.getElementById('progress-bar');
+const stepCount = document.getElementById('step-count');
 
 let currentQuestionIndex = 0;
 let scores = {};
 
 function getInitialScores() {
-    const initialScores = {};
-    // 只初始化四種主要顏色的分數
-    const mainColors = ['midnightBlue', 'orangeSunlight', 'forestGreen', 'roseMilkTea'];
-    mainColors.forEach(color => {
-        initialScores[color] = 0;
-    });
-    return initialScores;
+    return {
+        midnightBlue: 0,
+        orangeSunlight: 0,
+        forestGreen: 0,
+        roseMilkTea: 0
+    };
 }
 
 function startQuiz() {
@@ -105,11 +101,23 @@ function startQuiz() {
 function showQuestion() {
     resetState();
     const currentQuestion = questions[currentQuestionIndex];
-    questionElement.innerText = currentQuestion.question;
+    
+    // 1. 更新進度條
+    const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+    progressBar.style.width = `${progressPercent}%`;
+    
+    // 2. 更新題號文字 (例如 3/5)
+    stepCount.innerText = `${currentQuestionIndex + 1}/${questions.length}`;
 
-    currentQuestion.answers.forEach(answer => {
+    // 3. 顯示題目 (Q3. 題目內容)
+    questionTitleElement.innerText = `Q${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+
+    // 4. 生成選項按鈕 (加上 A. B. C. D.)
+    const labels = ['A.', 'B.', 'C.', 'D.'];
+    currentQuestion.answers.forEach((answer, index) => {
         const button = document.createElement('button');
-        button.innerText = answer.text;
+        // 加入標籤與文字
+        button.innerHTML = `<span style="opacity: 0.7; font-size: 0.8em; display:block; margin-bottom:5px;">${labels[index]}</span>${answer.text}`;
         button.classList.add('btn');
         button.addEventListener('click', () => selectAnswer(answer.scores));
         answerButtonsElement.appendChild(button);
@@ -141,6 +149,10 @@ function showResult() {
     questionContainer.classList.add('hide');
     resultContainer.classList.remove('hide');
 
+    // 進度條全滿
+    progressBar.style.width = '100%';
+    stepCount.innerText = '完成';
+
     const finalResultKey = calculateResult();
     const finalResult = results[finalResultKey];
     
@@ -152,16 +164,16 @@ function calculateResult() {
     const scoreValues = Object.values(scores);
     const maxScore = Math.max(...scoreValues);
     
+    // 找出所有拿到最高分的 Key
     const winners = Object.keys(scores).filter(key => scores[key] === maxScore);
     
-    // 如果最高分不只一個 (平手)，就回傳隱藏結果
-    if (winners.length > 1) {
-        return 'multicolor';
-    } else {
-        return winners[0];
-    }
+    // 如果有多個最高分，隨機選一個 (確保不會有雜食型)
+    // 如果只有一個，也會正常回傳該結果
+    const winnerIndex = Math.floor(Math.random() * winners.length);
+    return winners[winnerIndex];
 }
 
 restartBtn.addEventListener('click', startQuiz);
 
+// 初始化
 startQuiz();
