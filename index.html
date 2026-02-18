@@ -7,18 +7,39 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="quiz-container">
-        <h1>你的閱讀色票</h1>
-        <div id="question-container">
-            <h2 id="question">問題會顯示在這裡</h2>
-            <div id="answer-buttons" class="btn-grid">
-                </div>
+    <div class="mobile-wrapper">
+        <div class="app-header">
+            <span class="back-icon">❮</span>
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <span id="step-count" class="step-text">1/5</span>
         </div>
-        <div id="result-container" class="hide">
-            <h2>你的閱讀色票是...</h2>
-            <h3 id="result-title"></h3>
-            <p id="result-description"></p>
-            <button id="restart-btn">再測一次</button>
+
+        <div id="quiz-content">
+            <div id="question-container">
+                <h2 id="question-title">Q1. 題目載入中...</h2>
+                
+                <div class="question-image-placeholder">
+                    <div class="img-content">
+                        <span>📖</span>
+                        <p>Scene Image</p>
+                    </div>
+                </div>
+
+                <div id="answer-buttons" class="btn-grid">
+                    </div>
+            </div>
+
+            <div id="result-container" class="hide">
+                <div class="result-card">
+                    <h2>你的閱讀色票是...</h2>
+                    <h3 id="result-title"></h3>
+                    <div class="divider"></div>
+                    <p id="result-description"></p>
+                    <button id="restart-btn" class="btn-restart">再測一次</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
