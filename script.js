@@ -1,20 +1,29 @@
-// 結果類型定義 (已移除 multicolor)
+// 結果資料庫 (已移除 multicolor，新增書籍資訊)
 const results = {
     midnightBlue: {
         title: '午夜藍｜思辨者',
-        description: '你熱愛探索世界的深層邏輯與人性的複雜。對你而言，閱讀是一場心智的冒險，讓你沉浸在嚴謹的結構與宏大的世界觀中。\n\n推薦書單：科幻、推理、哲學、深度小說。'
+        // 為了符合版型，將原本的長描述改為書籍推薦語
+        bookTitle: '《海邊的卡夫卡》',
+        bookIntro: '村上春樹經典之作。對熱愛深層邏輯與人性複雜的你，這本書是一場心智的冒險，帶你沉浸在嚴謹結構與宏大世界觀中。',
+        themeColor: '#1a2a3a' // 可用來改變上方卡片顏色
     },
     orangeSunlight: {
         title: '橘日光｜生活玩家',
-        description: '你善於從平凡的日常中發現美好。閱讀對你來說，是感受生活的溫度，品味文字間的香氣與質地，讓片刻時光變得溫暖而充實。\n\n推薦書單：飲食文化、散文、生活美學。'
+        bookTitle: '《日日是好日》',
+        bookIntro: '森下典子茶道修行紀錄。你善於發現日常美好，這本書帶你品味季節流轉與生活溫度，讓片刻時光變得溫暖而充實。',
+        themeColor: '#e67e22'
     },
     forestGreen: {
         title: '森林深呼吸｜探索者',
-        description: '你的靈魂嚮往遠方，渴望透過文字去到未曾踏足的土地。閱讀是你的任意門，帶你穿越山川與人海，體驗世界的廣闊與多樣性。\n\n推薦書單：旅行文學、人文地理、生態書寫。'
+        bookTitle: '《阿拉斯加之死》',
+        bookIntro: '強·克拉庫爾的紀實文學。你的靈魂嚮往遠方，這本書將帶你穿越荒野，體驗生命的廣闊與極限，是探索者的心靈歸屬。',
+        themeColor: '#27ae60'
     },
     roseMilkTea: {
         title: '玫瑰奶茶｜浪漫派',
-        description: '你的情感細膩豐富，能敏銳地捕捉文字中的情緒與詩意。對你來說，閱讀是一場心靈的共振，讓你與故事中的角色一同歡笑與流淚。\n\n推薦書單：詩集、愛情小說、抒情散文。'
+        bookTitle: '《小王子》',
+        bookIntro: '聖修伯里的永恆經典。情感細膩的你，能讀懂書中隱藏的詩意。這是一場心靈共振，讓你與狐狸和玫瑰一同感受愛與羈絆。',
+        themeColor: '#e84393'
     }
 };
 
@@ -72,8 +81,13 @@ const questionContainer = document.getElementById('question-container');
 const resultContainer = document.getElementById('result-container');
 const questionTitleElement = document.getElementById('question-title');
 const answerButtonsElement = document.getElementById('answer-buttons');
+
+// 結果頁元素
 const resultTitleElement = document.getElementById('result-title');
-const resultDescriptionElement = document.getElementById('result-description');
+const resultBgColor = document.getElementById('result-bg-color');
+const bookNameElement = document.getElementById('book-name');
+const bookIntroElement = document.getElementById('book-intro');
+
 const restartBtn = document.getElementById('restart-btn');
 const progressBar = document.getElementById('progress-bar');
 const stepCount = document.getElementById('step-count');
@@ -82,12 +96,7 @@ let currentQuestionIndex = 0;
 let scores = {};
 
 function getInitialScores() {
-    return {
-        midnightBlue: 0,
-        orangeSunlight: 0,
-        forestGreen: 0,
-        roseMilkTea: 0
-    };
+    return { midnightBlue: 0, orangeSunlight: 0, forestGreen: 0, roseMilkTea: 0 };
 }
 
 function startQuiz() {
@@ -95,6 +104,10 @@ function startQuiz() {
     scores = getInitialScores();
     resultContainer.classList.add('hide');
     questionContainer.classList.remove('hide');
+    
+    // 重置 Header 狀態
+    document.querySelector('.app-header').style.opacity = '1';
+    
     showQuestion();
 }
 
@@ -102,21 +115,15 @@ function showQuestion() {
     resetState();
     const currentQuestion = questions[currentQuestionIndex];
     
-    // 1. 更新進度條
+    // 更新 UI
     const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
     progressBar.style.width = `${progressPercent}%`;
-    
-    // 2. 更新題號文字 (例如 3/5)
     stepCount.innerText = `${currentQuestionIndex + 1}/${questions.length}`;
-
-    // 3. 顯示題目 (Q3. 題目內容)
     questionTitleElement.innerText = `Q${currentQuestionIndex + 1}. ${currentQuestion.question}`;
 
-    // 4. 生成選項按鈕 (加上 A. B. C. D.)
     const labels = ['A.', 'B.', 'C.', 'D.'];
     currentQuestion.answers.forEach((answer, index) => {
         const button = document.createElement('button');
-        // 加入標籤與文字
         button.innerHTML = `<span style="opacity: 0.7; font-size: 0.8em; display:block; margin-bottom:5px;">${labels[index]}</span>${answer.text}`;
         button.classList.add('btn');
         button.addEventListener('click', () => selectAnswer(answer.scores));
@@ -148,32 +155,34 @@ function selectAnswer(answerScores) {
 function showResult() {
     questionContainer.classList.add('hide');
     resultContainer.classList.remove('hide');
-
-    // 進度條全滿
-    progressBar.style.width = '100%';
-    stepCount.innerText = '完成';
+    
+    // 隱藏進度條，讓畫面更乾淨
+    document.querySelector('.app-header').style.opacity = '0';
 
     const finalResultKey = calculateResult();
     const finalResult = results[finalResultKey];
     
+    // 填入資料
     resultTitleElement.innerText = finalResult.title;
-    resultDescriptionElement.innerText = finalResult.description;
+    bookNameElement.innerText = finalResult.bookTitle;
+    bookIntroElement.innerText = finalResult.bookIntro;
+    
+    // 動態改變上方卡片顏色 (可選)
+    if(finalResult.themeColor) {
+        resultBgColor.style.backgroundColor = finalResult.themeColor;
+        // 調整邊框顏色以匹配背景
+        resultBgColor.style.boxShadow = `inset 0 0 0 5px ${finalResult.themeColor}, inset 0 0 0 6px #e0c097`;
+    }
 }
 
 function calculateResult() {
     const scoreValues = Object.values(scores);
     const maxScore = Math.max(...scoreValues);
-    
-    // 找出所有拿到最高分的 Key
     const winners = Object.keys(scores).filter(key => scores[key] === maxScore);
-    
-    // 如果有多個最高分，隨機選一個 (確保不會有雜食型)
-    // 如果只有一個，也會正常回傳該結果
     const winnerIndex = Math.floor(Math.random() * winners.length);
     return winners[winnerIndex];
 }
 
 restartBtn.addEventListener('click', startQuiz);
 
-// 初始化
 startQuiz();
