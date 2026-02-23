@@ -1,7 +1,7 @@
 /* 全局設定 */
 body {
     font-family: "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #eef2f5;
+    background-color: #f0f2f5; /* 淺灰背景讓手機框更明顯 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,19 +9,21 @@ body {
     margin: 0;
 }
 
+/* 手機外框容器 (關鍵：固定寬度與隱藏溢出) */
 .mobile-wrapper {
     background-color: #ffffff;
     width: 100%;
-    max-width: 375px;
-    min-height: 750px;
+    max-width: 375px; /* 鎖定手機寬度 */
+    min-height: 700px; /* 略微縮短高度以適應視窗 */
+    height: auto;
     border-radius: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    padding: 25px;
-    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    box-sizing: border-box; /* 確保 padding 不會撐大寬度 */
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* 防止大圖片撐爆圓角 */
 }
 
 /* Header */
@@ -32,101 +34,146 @@ body {
 .step-text { font-size: 0.9rem; color: #888; font-weight: bold; }
 
 /* 題目樣式 */
-#question-title { font-size: 1.1rem; color: #222; margin-bottom: 15px; line-height: 1.5; }
+#question-title { font-size: 1.1rem; color: #222; margin-bottom: 15px; line-height: 1.5; font-weight: bold; }
 
 /* 題目圖片容器與圖片 */
 .question-image-container {
     width: 100%;
     height: 200px;
     border-radius: 15px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     overflow: hidden;
     background-color: #f0f0f0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 #question-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* 關鍵：裁切圖片填滿容器 */
     display: block;
 }
 
 /* 按鈕 Grid */
 .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.btn { border: none; border-radius: 12px; padding: 15px; font-size: 0.95rem; cursor: pointer; text-align: left; min-height: 80px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.1s; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.btn { 
+    border: 1px solid #eee; /* 輕微邊框 */
+    background: #fff;
+    border-radius: 12px; 
+    padding: 15px; 
+    font-size: 0.95rem; 
+    cursor: pointer; 
+    text-align: left; 
+    min-height: 80px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    transition: all 0.2s; 
+    font-weight: bold; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+    color: #333;
+}
 .btn:active { transform: scale(0.98); }
-.btn:nth-child(1) { background-color: #1f4068; color: white; }
-.btn:nth-child(2) { background-color: #f39c12; color: white; }
-.btn:nth-child(3) { background-color: #f1c40f; color: #333; }
-.btn:nth-child(4) { background-color: #ecf0f1; color: #333; }
+/* 四色按鈕裝飾 */
+.btn:nth-child(1) { border-left: 5px solid #1f4068; }
+.btn:nth-child(2) { border-left: 5px solid #f39c12; }
+.btn:nth-child(3) { border-left: 5px solid #f1c40f; }
+.btn:nth-child(4) { border-left: 5px solid #e74c3c; }
 
-.hide { display: none; }
+.hide { display: none !important; }
 
-/* --- 結果頁 --- */
+/* --- 結果頁優化樣式 --- */
 
-/* 1. 上半部：圖底 + 灰色遮罩 */
+/* 上半部：深色卡片容器 */
+.result-card-container {
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
 .result-top-visual {
+    /* 這裡會被 JS 的背景圖覆蓋，但我們保留預設底色 */
+    background-color: #1a2a3a; 
     background-size: cover;
     background-position: center;
-    position: relative;
     border-radius: 20px;
-    padding: 30px 20px;
-    text-align: center;
-    margin-bottom: 20px;
+    padding: 20px; /* 給內部邊框一點空間 */
     height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+/* 內部金框裝飾 */
+.inner-border {
+    border: 1px solid rgba(255, 255, 255, 0.4); /* 模仿金框 */
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 增加文字陰影，確保在圖片上夠清晰 */
+    background: rgba(0, 0, 0, 0.3); /* 半透明黑底讓文字更清楚 */
+    backdrop-filter: blur(2px);
 }
 
 .small-label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     margin: 0;
     opacity: 0.9;
     letter-spacing: 2px;
-    color: #e0c097; /* 淺金色 */
+    color: #ffd700; /* 金色文字 */
 }
 
 #result-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
     margin: 10px 0;
     font-weight: bold;
     color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .book-icon-decoration {
     font-size: 2.5rem;
-    margin-top: 10px;
-    opacity: 0.9;
+    margin-top: 5px;
 }
 
-/* 2. 下半部：推薦卡片 */
+/* 下半部：推薦卡片 */
 .recommendation-card {
-    border: 2px solid #e6dcc8;
+    border: 2px solid #e6dcc8; /* 米金色邊框 */
     border-radius: 20px;
     padding: 20px;
-    background-color: #fff;
+    background-color: #fffbe6; /* 極淺的米黃色底 */
 }
 
-.rec-title { text-align: center; font-size: 1.1rem; color: #555; margin-top: 0; margin-bottom: 20px; }
+.rec-title { 
+    text-align: center; 
+    font-size: 1.1rem; 
+    color: #555; 
+    margin-top: 0; 
+    margin-bottom: 15px; 
+    font-weight: bold;
+}
 
-/* 書籍左右佈局 */
-.book-layout { display: flex; gap: 15px; margin-bottom: 20px; }
+/* 書籍左右佈局 (Flexbox 修復關鍵) */
+.book-layout { 
+    display: flex; /* 確保左右排列 */
+    align-items: flex-start;
+    gap: 15px; 
+    margin-bottom: 20px; 
+}
 
 /* 左側書封圖片 */
 .book-cover-wrapper {
-    flex-shrink: 0;
-    width: 90px;
-    height: 130px;
+    flex-shrink: 0; /* 防止圖片被擠壓 */
+    width: 80px;  /* 固定寬度 */
+    height: 120px; /* 固定高度 */
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
-    background-color: #f0f0f0;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+    background-color: #fff;
 }
 
 #book-cover-image {
@@ -137,26 +184,39 @@ body {
 }
 
 /* 右側文字 */
-.book-info { flex-grow: 1; display: flex; flex-direction: column; }
-#book-name { margin: 0 0 8px 0; font-size: 1.1rem; color: #2c3e50; }
+.book-info { 
+    flex-grow: 1; 
+    display: flex; 
+    flex-direction: column; 
+    text-align: left; /* 強制文字靠左 */
+}
+
+#book-name { 
+    margin: 0 0 8px 0; 
+    font-size: 1.1rem; 
+    color: #2c3e50; 
+    font-weight: bold;
+}
+
 #book-intro {
     margin: 0;
     font-size: 0.85rem;
     color: #666;
     line-height: 1.5;
+    /* 限制行數，超過顯示 ... */
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* 按鈕 */
+/* 購買按鈕 (模仿圖片中的紅色風格) */
 .btn-buy {
-    background-color: #e76f51;
+    background-color: #e76f51; /* 珊瑚紅 */
     color: white;
     border: none;
     width: 100%;
-    padding: 15px;
+    padding: 12px;
     border-radius: 12px;
     font-size: 1.1rem;
     font-weight: bold;
@@ -165,6 +225,13 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 4px 10px rgba(231, 111, 81, 0.3);
+    box-shadow: 0 4px 0px #c0392b; /* 立體感按鈕底部 */
+    transition: transform 0.1s;
 }
-.btn-buy:active { transform: scale(0.98); }
+
+.btn-buy:active { 
+    transform: translateY(4px); 
+    box-shadow: 0 0 0 #c0392b;
+}
+
+.tag-icon { font-size: 1.2rem; }
