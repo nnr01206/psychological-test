@@ -1,170 +1,194 @@
-/* 全局設定 */
-body {
-    font-family: "Microsoft JhengHei", -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #eef2f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
+// 結果資料庫 (加入背景圖網址與書封網址)
+const results = {
+    midnightBlue: {
+        title: '午夜藍｜思辨者',
+        bookTitle: '《海邊的卡夫卡》',
+        bookIntro: '村上春樹經典之作。對熱愛深層邏輯與人性複雜的你，這本書是一場心智的冒險，帶你沉浸在嚴謹結構與宏大世界觀中。',
+        bgImage: 'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?q=80&w=600', // 結果頁背景圖 (深藍夜空風格)
+        bookCover: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300' // 書籍封面網址
+    },
+    orangeSunlight: {
+        title: '橘日光｜生活玩家',
+        bookTitle: '《日日是好日》',
+        bookIntro: '森下典子茶道修行紀錄。你善於發現日常美好，這本書帶你品味季節流轉與生活溫度，讓片刻時光變得溫暖而充實。',
+        bgImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600', 
+        bookCover: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=300'
+    },
+    forestGreen: {
+        title: '森林深呼吸｜探索者',
+        bookTitle: '《阿拉斯加之死》',
+        bookIntro: '強·克拉庫爾的紀實文學。你的靈魂嚮往遠方，這本書將帶你穿越荒野，體驗生命的廣闊與極限，是探索者的心靈歸屬。',
+        bgImage: 'https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=600',
+        bookCover: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=300'
+    },
+    roseMilkTea: {
+        title: '玫瑰奶茶｜浪漫派',
+        bookTitle: '《小王子》',
+        bookIntro: '聖修伯里的永恆經典。情感細膩的你，能讀懂書中隱藏的詩意。這是一場心靈共振，讓你與狐狸和玫瑰一同感受愛與羈絆。',
+        bgImage: 'https://images.unsplash.com/photo-1496857239036-1fb137283b17?q=80&w=600',
+        bookCover: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300'
+    }
+};
+
+// 題目資料庫 (加入題目圖片網址)
+const questions = [
+    {
+        question: '推開街角書店的門，第一個吸引你的地方是…',
+        image: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=600', // 第一題圖片
+        answers: [
+            { text: '世界文學經典', scores: { midnightBlue: 1 } },
+            { text: '料理書與手作書', scores: { orangeSunlight: 1 } },
+            { text: '旅行與自然書架', scores: { forestGreen: 1 } },
+            { text: '詩集與愛情小說', scores: { roseMilkTea: 1 } }
+        ]
+    },
+    {
+        question: '你會選哪杯飲品坐下來閱讀？',
+        image: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=600', // 第二題圖片
+        answers: [
+            { text: '熱美式', scores: { midnightBlue: 1 } },
+            { text: '錫蘭紅茶', scores: { orangeSunlight: 1 } },
+            { text: '檸檬氣泡水', scores: { forestGreen: 1 } },
+            { text: '玫瑰熱可可', scores: { roseMilkTea: 1 } }
+        ]
+    },
+    {
+        question: '你最容易沉迷的書頁是…',
+        image: 'https://images.unsplash.com/photo-1513001900722-370f803f498d?q=80&w=600', // 第三題圖片
+        answers: [
+            { text: '世界觀豐富的長篇小說', scores: { midnightBlue: 1 } },
+            { text: '有照片、有故事的生活紀錄書', scores: { orangeSunlight: 1 } },
+            { text: '遠方旅行散文', scores: { forestGreen: 1 } },
+            { text: '詩集或愛情故事', scores: { roseMilkTea: 1 } }
+        ]
+    },
+    {
+        question: '午後時分，窗外下起細雨，你會…',
+        image: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?q=80&w=600', // 第四題圖片
+        answers: [
+            { text: '一口氣讀完推理小說', scores: { midnightBlue: 1 } },
+            { text: '抄寫生活散文的句子', scores: { orangeSunlight: 1 } },
+            { text: '計畫下一次長途旅行', scores: { forestGreen: 1 } },
+            { text: '寫下心情想寄給某人', scores: { roseMilkTea: 1 } }
+        ]
+    },
+    {
+        question: '你決定帶一本書回家，那會是…',
+        image: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=600', // 第五題圖片
+        answers: [
+            { text: '哲思小說', scores: { midnightBlue: 1 } },
+            { text: '料理書', scores: { orangeSunlight: 1 } },
+            { text: '攝影集／人文地理書', scores: { forestGreen: 1 } },
+            { text: '詩集', scores: { roseMilkTea: 1 } }
+        ]
+    }
+];
+
+// ----- DOM 元素 -----
+const questionContainer = document.getElementById('question-container');
+const resultContainer = document.getElementById('result-container');
+const questionTitleElement = document.getElementById('question-title');
+const answerButtonsElement = document.getElementById('answer-buttons');
+const questionImageElement = document.getElementById('question-image'); // 取得題目圖片元素
+
+const resultTopVisual = document.getElementById('result-top-visual'); // 取得結果頁上半部
+const resultTitleElement = document.getElementById('result-title');
+const bookCoverImage = document.getElementById('book-cover-image'); // 取得書封圖片元素
+const bookNameElement = document.getElementById('book-name');
+const bookIntroElement = document.getElementById('book-intro');
+
+const restartBtn = document.getElementById('restart-btn');
+const progressBar = document.getElementById('progress-bar');
+const stepCount = document.getElementById('step-count');
+
+let currentQuestionIndex = 0;
+let scores = {};
+
+function getInitialScores() {
+    return { midnightBlue: 0, orangeSunlight: 0, forestGreen: 0, roseMilkTea: 0 };
 }
 
-.mobile-wrapper {
-    background-color: #ffffff;
-    width: 100%;
-    max-width: 375px;
-    min-height: 750px;
-    border-radius: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    padding: 25px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
+function startQuiz() {
+    currentQuestionIndex = 0;
+    scores = getInitialScores();
+    resultContainer.classList.add('hide');
+    questionContainer.classList.remove('hide');
+    document.querySelector('.app-header').style.opacity = '1';
+    showQuestion();
 }
 
-/* Header */
-.app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; z-index: 10; }
-.back-icon { font-size: 1.2rem; color: #888; cursor: pointer; }
-.progress-container { flex-grow: 1; background-color: #f0f0f0; height: 6px; border-radius: 3px; margin: 0 15px; overflow: hidden; }
-.progress-bar { background-color: #2c3e50; height: 100%; width: 20%; transition: width 0.3s ease; }
-.step-text { font-size: 0.9rem; color: #888; font-weight: bold; }
+function showQuestion() {
+    resetState();
+    const currentQuestion = questions[currentQuestionIndex];
+    
+    // 更新進度與標題
+    const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+    progressBar.style.width = `${progressPercent}%`;
+    stepCount.innerText = `${currentQuestionIndex + 1}/${questions.length}`;
+    questionTitleElement.innerText = `Q${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+    
+    // 更新題目圖片
+    questionImageElement.src = currentQuestion.image;
 
-/* 題目樣式 */
-#question-title { font-size: 1.1rem; color: #222; margin-bottom: 15px; line-height: 1.5; }
-
-/* 題目圖片容器與圖片 */
-.question-image-container {
-    width: 100%;
-    height: 200px;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    overflow: hidden;
-    background-color: #f0f0f0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    const labels = ['A.', 'B.', 'C.', 'D.'];
+    currentQuestion.answers.forEach((answer, index) => {
+        const button = document.createElement('button');
+        button.innerHTML = `<span style="opacity: 0.7; font-size: 0.8em; display:block; margin-bottom:5px;">${labels[index]}</span>${answer.text}`;
+        button.classList.add('btn');
+        button.addEventListener('click', () => selectAnswer(answer.scores));
+        answerButtonsElement.appendChild(button);
+    });
 }
 
-#question-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+function resetState() {
+    while (answerButtonsElement.firstChild) {
+        answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+    }
 }
 
-/* 按鈕 Grid */
-.btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.btn { border: none; border-radius: 12px; padding: 15px; font-size: 0.95rem; cursor: pointer; text-align: left; min-height: 80px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.1s; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.btn:active { transform: scale(0.98); }
-.btn:nth-child(1) { background-color: #1f4068; color: white; }
-.btn:nth-child(2) { background-color: #f39c12; color: white; }
-.btn:nth-child(3) { background-color: #f1c40f; color: #333; }
-.btn:nth-child(4) { background-color: #ecf0f1; color: #333; }
+function selectAnswer(answerScores) {
+    for (const resultKey in answerScores) {
+        if (scores.hasOwnProperty(resultKey)) {
+            scores[resultKey] += answerScores[resultKey];
+        }
+    }
 
-.hide { display: none; }
-
-/* --- 結果頁 --- */
-
-/* 1. 上半部：圖底 + 灰色遮罩 */
-.result-top-visual {
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    border-radius: 20px;
-    padding: 30px 20px;
-    text-align: center;
-    margin-bottom: 20px;
-    height: 220px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 增加文字陰影，確保在圖片上夠清晰 */
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
 }
 
-.small-label {
-    font-size: 0.9rem;
-    margin: 0;
-    opacity: 0.9;
-    letter-spacing: 2px;
-    color: #e0c097; /* 淺金色 */
+function showResult() {
+    questionContainer.classList.add('hide');
+    resultContainer.classList.remove('hide');
+    document.querySelector('.app-header').style.opacity = '0';
+
+    const finalResultKey = calculateResult();
+    const finalResult = results[finalResultKey];
+    
+    // 填入文字資料
+    resultTitleElement.innerText = finalResult.title;
+    bookNameElement.innerText = finalResult.bookTitle;
+    bookIntroElement.innerText = finalResult.bookIntro;
+    
+    // 更新推薦書封圖片
+    bookCoverImage.src = finalResult.bookCover;
+    
+    // 更新結果頁背景圖 (加入灰色半透明漸層遮罩)
+    resultTopVisual.style.backgroundImage = `linear-gradient(rgba(50, 50, 50, 0.6), rgba(20, 20, 20, 0.85)), url('${finalResult.bgImage}')`;
 }
 
-#result-title {
-    font-size: 2.2rem;
-    margin: 10px 0;
-    font-weight: bold;
-    color: #fff;
+function calculateResult() {
+    const scoreValues = Object.values(scores);
+    const maxScore = Math.max(...scoreValues);
+    const winners = Object.keys(scores).filter(key => scores[key] === maxScore);
+    const winnerIndex = Math.floor(Math.random() * winners.length);
+    return winners[winnerIndex];
 }
 
-.book-icon-decoration {
-    font-size: 2.5rem;
-    margin-top: 10px;
-    opacity: 0.9;
-}
+restartBtn.addEventListener('click', startQuiz);
 
-/* 2. 下半部：推薦卡片 */
-.recommendation-card {
-    border: 2px solid #e6dcc8;
-    border-radius: 20px;
-    padding: 20px;
-    background-color: #fff;
-}
-
-.rec-title { text-align: center; font-size: 1.1rem; color: #555; margin-top: 0; margin-bottom: 20px; }
-
-/* 書籍左右佈局 */
-.book-layout { display: flex; gap: 15px; margin-bottom: 20px; }
-
-/* 左側書封圖片 */
-.book-cover-wrapper {
-    flex-shrink: 0;
-    width: 90px;
-    height: 130px;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
-    background-color: #f0f0f0;
-}
-
-#book-cover-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* 右側文字 */
-.book-info { flex-grow: 1; display: flex; flex-direction: column; }
-#book-name { margin: 0 0 8px 0; font-size: 1.1rem; color: #2c3e50; }
-#book-intro {
-    margin: 0;
-    font-size: 0.85rem;
-    color: #666;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* 按鈕 */
-.btn-buy {
-    background-color: #e76f51;
-    color: white;
-    border: none;
-    width: 100%;
-    padding: 15px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: 0 4px 10px rgba(231, 111, 81, 0.3);
-}
-.btn-buy:active { transform: scale(0.98); }
+startQuiz();
