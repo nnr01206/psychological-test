@@ -198,10 +198,10 @@ function calculateResult() {
     return winners[winnerIndex];
 }
 
+// 修改後的寫法
 restartBtn.addEventListener('click', () => {
-    // 這裡改為跳轉到購書連結，如果只是要重測，請用下方註解的 startQuiz()
-    alert("這是範例按鈕，實際專案可連結到博客來或誠品！");
-    // startQuiz(); 
+    window.location.href = "https://nnr01206.github.io/Boutique-/";
 });
 
 startQuiz();
+
