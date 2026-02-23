@@ -30,10 +30,14 @@
 
             <div id="result-container" class="hide">
                 
-                <div class="result-top-visual" id="result-top-visual">
-                    <p class="small-label">你的閱讀人格</p>
-                    <h2 id="result-title">測驗結果</h2>
-                    <div class="book-icon-decoration">📖</div>
+                <div class="result-card-container">
+                    <div class="result-top-visual" id="result-top-visual">
+                        <div class="inner-border">
+                            <p class="small-label">你的閱讀人格</p>
+                            <h2 id="result-title">測驗結果</h2>
+                            <div class="book-icon-decoration">📖</div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="recommendation-card">
@@ -51,9 +55,13 @@
                     </div>
 
                     <button id="restart-btn" class="btn-buy">
-                        再測一次
+                        立即購買
                         <span class="tag-icon">🏷️</span>
                     </button>
+                    
+                    <div style="text-align: center; margin-top: 10px;">
+                        <a href="#" onclick="location.reload()" style="color: #999; font-size: 0.8rem; text-decoration: none;">再測一次 ↻</a>
+                    </div>
                 </div>
             </div>
         </div>
