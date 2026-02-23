@@ -25,24 +25,34 @@ body {
 }
 
 /* Header */
-.app-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    z-index: 10; /* 確保在結果頁上方 */
-}
-
+.app-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; z-index: 10; }
 .back-icon { font-size: 1.2rem; color: #888; cursor: pointer; }
 .progress-container { flex-grow: 1; background-color: #f0f0f0; height: 6px; border-radius: 3px; margin: 0 15px; overflow: hidden; }
 .progress-bar { background-color: #2c3e50; height: 100%; width: 20%; transition: width 0.3s ease; }
 .step-text { font-size: 0.9rem; color: #888; font-weight: bold; }
 
-/* Question Styles */
+/* 題目樣式 */
 #question-title { font-size: 1.1rem; color: #222; margin-bottom: 15px; line-height: 1.5; }
-.question-image-placeholder { width: 100%; height: 200px; background-color: #fcebc5; border-radius: 15px; margin-bottom: 25px; display: flex; justify-content: center; align-items: center; color: #a68b5b; }
-.img-content { text-align: center; font-size: 3rem; }
-.img-content p { font-size: 1rem; margin: 5px 0 0 0; }
+
+/* 題目圖片容器與圖片 */
+.question-image-container {
+    width: 100%;
+    height: 200px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+#question-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 按鈕 Grid */
 .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 .btn { border: none; border-radius: 12px; padding: 15px; font-size: 0.95rem; cursor: pointer; text-align: left; min-height: 80px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.1s; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 .btn:active { transform: scale(0.98); }
@@ -53,114 +63,96 @@ body {
 
 .hide { display: none; }
 
-/* --- 結果頁新版型 --- */
+/* --- 結果頁 --- */
 
-/* 1. 上半部：視覺大圖 */
+/* 1. 上半部：圖底 + 灰色遮罩 */
 .result-top-visual {
-    background-color: #1a2a3a; /* 深夜藍底色 */
-    color: #e0c097; /* 金色文字 */
+    background-size: cover;
+    background-position: center;
+    position: relative;
     border-radius: 20px;
     padding: 30px 20px;
     text-align: center;
     margin-bottom: 20px;
-    height: 220px; /* 固定高度模擬圖片 */
+    height: 220px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border: 1px solid #e0c097; /* 裝飾框線 */
-    box-shadow: inset 0 0 0 5px #1a2a3a, inset 0 0 0 6px #e0c097; /* 模擬雙層框線 */
+    overflow: hidden;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 增加文字陰影，確保在圖片上夠清晰 */
 }
 
 .small-label {
     font-size: 0.9rem;
     margin: 0;
-    opacity: 0.8;
+    opacity: 0.9;
     letter-spacing: 2px;
+    color: #e0c097; /* 淺金色 */
 }
 
 #result-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin: 10px 0;
     font-weight: bold;
     color: #fff;
 }
 
 .book-icon-decoration {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-top: 10px;
+    opacity: 0.9;
 }
 
 /* 2. 下半部：推薦卡片 */
 .recommendation-card {
-    border: 2px solid #e6dcc8; /* 米金色邊框 */
+    border: 2px solid #e6dcc8;
     border-radius: 20px;
     padding: 20px;
     background-color: #fff;
 }
 
-.rec-title {
-    text-align: center;
-    font-size: 1.1rem;
-    color: #555;
-    margin-top: 0;
-    margin-bottom: 20px;
-}
+.rec-title { text-align: center; font-size: 1.1rem; color: #555; margin-top: 0; margin-bottom: 20px; }
 
 /* 書籍左右佈局 */
-.book-layout {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
+.book-layout { display: flex; gap: 15px; margin-bottom: 20px; }
 
-/* 左側書封 */
+/* 左側書封圖片 */
 .book-cover-wrapper {
     flex-shrink: 0;
     width: 90px;
     height: 130px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+    background-color: #f0f0f0;
 }
 
-.book-cover-placeholder {
+#book-cover-image {
     width: 100%;
     height: 100%;
-    background-color: #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    color: #666;
-    border-radius: 5px;
-    box-shadow: 3px 3px 8px rgba(0,0,0,0.1);
+    object-fit: cover;
+    display: block;
 }
 
 /* 右側文字 */
-.book-info {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-#book-name {
-    margin: 0 0 8px 0;
-    font-size: 1.1rem;
-    color: #2c3e50;
-}
-
+.book-info { flex-grow: 1; display: flex; flex-direction: column; }
+#book-name { margin: 0 0 8px 0; font-size: 1.1rem; color: #2c3e50; }
 #book-intro {
     margin: 0;
     font-size: 0.85rem;
     color: #666;
     line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 4; /* 限制顯示行數 */
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* 立即購買/重測按鈕 */
+/* 按鈕 */
 .btn-buy {
-    background-color: #e76f51; /* 珊瑚紅 */
+    background-color: #e76f51;
     color: white;
     border: none;
     width: 100%;
@@ -175,7 +167,4 @@ body {
     gap: 8px;
     box-shadow: 0 4px 10px rgba(231, 111, 81, 0.3);
 }
-
-.btn-buy:active {
-    transform: scale(0.98);
-}
+.btn-buy:active { transform: scale(0.98); }
