@@ -20,11 +20,8 @@
             <div id="question-container">
                 <h2 id="question-title">Q1. 題目載入中...</h2>
                 
-                <div class="question-image-placeholder">
-                    <div class="img-content">
-                        <span>📖</span>
-                        <p>Scene Image</p>
-                    </div>
+                <div class="question-image-container">
+                    <img id="question-image" src="" alt="題目情境圖">
                 </div>
 
                 <div id="answer-buttons" class="btn-grid">
@@ -33,12 +30,10 @@
 
             <div id="result-container" class="hide">
                 
-                <div class="result-top-visual" id="result-bg-color">
-                    <div class="visual-content">
-                        <p class="small-label">你的閱讀人格</p>
-                        <h2 id="result-title">測驗結果</h2>
-                        <div class="book-icon-decoration">📚</div>
-                    </div>
+                <div class="result-top-visual" id="result-top-visual">
+                    <p class="small-label">你的閱讀人格</p>
+                    <h2 id="result-title">測驗結果</h2>
+                    <div class="book-icon-decoration">📖</div>
                 </div>
 
                 <div class="recommendation-card">
@@ -46,7 +41,7 @@
                     
                     <div class="book-layout">
                         <div class="book-cover-wrapper">
-                            <div class="book-cover-placeholder">Book Cover</div>
+                            <img id="book-cover-image" src="" alt="推薦書封">
                         </div>
                         
                         <div class="book-info">
@@ -60,7 +55,6 @@
                         <span class="tag-icon">🏷️</span>
                     </button>
                 </div>
-
             </div>
         </div>
     </div>
