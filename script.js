@@ -3,29 +3,29 @@
 const results = {
     midnightBlue: {
         title: '深夜旅人',
-        bookTitle: '《海邊的卡夫卡》',
-        bookIntro: '村上春樹經典之作。對熱愛深層邏輯與人性複雜的你，這本書是一場心智的冒險，帶你沉浸在嚴謹結構與宏大世界觀中。',
+        bookTitle: '《「愛在」三部曲劇本書》',
+        bookIntro: '這部劇本書收錄了「愛在」三部曲的完整劇本，深⼊探討了傑西與席琳跨越⼆⼗年的愛情對話，展現時間與關係的細膩變化。',
         bgImage: './images/result-midnight.jpg',   // 建議使用深色背景圖
         bookCover: './images/book-kafka.jpg'       // 書封圖片
     },
     orangeSunlight: {
         title: '生活玩家',
-        bookTitle: '《日日是好日》',
-        bookIntro: '森下典子茶道修行紀錄。你善於發現日常美好，這本書帶你品味季節流轉與生活溫度，讓片刻時光變得溫暖而充實。',
+        bookTitle: '《小王子》',
+        bookIntro: '⼀位⾶⾏員在沙漠中遇⾒⼩王⼦，透過他的視⻆，探討愛、孤獨與⼈⽣的真諦，觸動⼈⼼。',
         bgImage: './images/result-sunlight.jpg',
         bookCover: './images/book-daily.jpg'
     },
     forestGreen: {
         title: '森林探索者',
-        bookTitle: '《阿拉斯加之死》',
-        bookIntro: '強·克拉庫爾的紀實文學。你的靈魂嚮往遠方，這本書將帶你穿越荒野，體驗生命的廣闊與極限，是探索者的心靈歸屬。',
+        bookTitle: '《北上南下》',
+        bookIntro: ' 陳有志詩集《北上南下》，在詩與詩⼈的四季裡，以細膩筆觸描繪台灣⼟地與⼈⽂、⾵景，情感真摯，意境深遠。',
         bgImage: './images/result-forest.jpg',
         bookCover: './images/book-alaska.jpg'
     },
     roseMilkTea: {
         title: '浪漫詩人',
-        bookTitle: '《小王子》',
-        bookIntro: '聖修伯里的永恆經典。情感細膩的你，能讀懂書中隱藏的詩意。這是一場心靈共振，讓你與狐狸和玫瑰一同感受愛與羈絆。',
+        bookTitle: '《愛的藝術》',
+        bookIntro: ' 《愛的藝術》是⼼理學家埃⾥希·佛洛姆的經典著作，探討愛作為⼀種能⼒⽽⾮單純情感。書中分析了愛的各種形式，並強調愛需要知識、努⼒與實踐，才能真正掌握。',
         bgImage: './images/result-rose.jpg',
         bookCover: './images/book-prince.jpg'
     }
@@ -204,4 +204,5 @@ restartBtn.addEventListener('click', () => {
 });
 
 startQuiz();
+
 
